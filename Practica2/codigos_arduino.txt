@@ -1,0 +1,125 @@
+//Codigo ejercicio 4
+int pot = 0;
+int int_led = 0;
+void setup()
+{
+  pinMode(3, OUTPUT);
+}
+
+void loop()
+{
+  pot = analogRead(A0);
+  int_led = map(pot, 0, 1023, 0, 255);
+  analogWrite(3, int_led);
+}
+
+----------------------------------------------------------------
+
+//Codigo ejercicio 5
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
+
+void setup()
+{
+	lcd.begin(16,2);
+	lcd.print("Hola mundo");
+}
+
+void loop()
+{
+  
+}
+
+---------------------------------------------------------------
+
+//codigo problema 10
+String romano;
+int arabigo;
+
+void setup()
+{
+	Serial.begin(9600);
+}
+
+void loop()
+{
+	romano = Serial.readString();    
+	arabigo = romanoAarabigo(romano);
+	
+  	Serial.println("Ingrese un numero romano.");
+  	Serial.print("El numero ingresado fue: ");
+    	Serial.println(romano);
+    	Serial.print("Que corresponde a: ");
+    	Serial.println(arabigo);
+	
+  	delay(1000);
+}
+
+
+int romanoAarabigo(String romano){
+	int total = 0;
+  	int longitud = romano.length();
+  	
+  if(verificacionRomano(romano)){
+  	for(int i=0; i<longitud; i++){
+  		
+    	char actual = toupper(romano[i]); 	 
+  		char siguiente = (i + 1 < longitud) ? toupper(romano[i + 1]) : '\0';
+  		int valorActual = 0, valorSiguiente = 0;
+      
+    	switch (actual){
+      
+        	case 'M': valorActual = 1000; break;
+      		case 'D': valorActual = 500; break;
+      		case 'C': valorActual = 100; break;
+      		case 'L': valorActual = 50; break;
+      		case 'X': valorActual = 10; break;
+      		case 'V': valorActual = 5; break;
+      		case 'I': valorActual = 1; break;
+    	}
+
+    	switch (siguiente){
+      		case 'M': valorSiguiente = 1000; break;
+      		case 'D': valorSiguiente = 500; break;
+      		case 'C': valorSiguiente = 100; break;
+      		case 'L': valorSiguiente = 50; break;
+      		case 'X': valorSiguiente = 10; break;
+      		case 'V': valorSiguiente = 5; break;
+      		case 'I': valorSiguiente = 1; break;
+    	} 	 
+    	
+      	 if (valorActual < valorSiguiente){
+      		total -= valorActual;
+         }
+         else {
+         	total += valorActual;		  
+    	 }
+    
+      }  
+  }
+  else{
+  	Serial.print("Se ha introducido un caracter inexistente en los numeros romanos");  
+  	Serial.println();
+  }
+    
+  return total;
+}
+
+
+bool verificacionRomano(String romano){
+ 	
+  int longitud = romano.length();
+  
+  for(int i=0; i<longitud; i++){
+  		
+    char actual = toupper(romano[i]); 	 
+	if (actual != 'M' && actual != 'D' && actual != 'C' && actual != 'L' && actual != 'X' && actual != 'V' && actual != 'I'){ 
+		return false;
+	}  
+  }
+
+  return true;
+}
+
+----------------------------------------------------------------------------
+
