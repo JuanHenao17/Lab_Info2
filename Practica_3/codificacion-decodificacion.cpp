@@ -74,15 +74,7 @@ string char2binario(string texto)
     return str_binario;
 }
 
-void escribirArchivoBinario(const string &nombreArchivo, const string &contenido) {
-    ofstream archivo(nombreArchivo, ios::binary);  // Modo binario
-    if (archivo.is_open()) {
-        archivo.write(contenido.c_str(), contenido.size());  // Escribir binario
-        archivo.close();
-    } else {
-        cout << "Error al abrir el archivo binario para escribir." << endl;
-    }
-}
+
 
 string leerArchivoPorCaracter(string nombreArchivo)
 {
@@ -104,38 +96,6 @@ string leerArchivoPorCaracter(string nombreArchivo)
     return contenido;
 }
 
-string binarioACaracteres(string binario) {
-    string resultado;
-
-    for (int i = 0; i < binario.length(); i += 8) {
-        string byte = binario.substr(i, 8);
-        char c = bitset<8>(byte).to_ulong();
-        resultado += c;
-    }
-    return resultado;
-}
-
-void escribirArchivo(string nombreArchivo, string texto, bool limpiar)
-{
-    fstream archivo;
-    if (limpiar) // Si limpiar es verdadero, se sobreescribe el archivo
-    {
-        archivo.open(nombreArchivo, ios::out | ios::trunc);
-    }
-    else // Si limpiar es falso, se agrega contenido al final del archivo
-    {
-        archivo.open(nombreArchivo, ios::out | ios::app);
-    }
-
-    if (!archivo.is_open())
-    {
-        cout << "Error al abrir el archivo\n";
-        return;
-    }
-
-    archivo << texto << endl;
-    archivo.close();
-}
 
 string codificacion_metodo1(const string& block, int count0s, int count1s) {
     string encodedBlock;
